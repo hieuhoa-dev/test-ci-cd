@@ -1,16 +1,16 @@
+image: docker:26
+
+services:
+  - docker:26-dind
+
+variables:
+  DOCKER_TLS_CERTDIR: ""
+
 stages:
-  - build
   - test
 
-build_job:
-  stage: build
-  image: node:18
-  script:
-    - npm install
-    - npm run build
-
-test_job:
+test:
   stage: test
-  image: node:18
   script:
-    - npm test
+    - docker build -t app-test .
+    - docker run --rm app-test
